@@ -1,0 +1,33 @@
+{
+  "name": "orangehrm-ui-automation-playwright",
+  "version": "1.0.0",
+  "description": "BDD + Playwright UI automation framework for OrangeHRM (24Slides QA Automation assessment — Task 1)",
+  "private": true,
+  "scripts": {
+    "test": "bddgen && playwright test",
+    "test:headed": "bddgen && playwright test --headed",
+    "test:ui": "bddgen && playwright test --ui",
+    "test:smoke": "bddgen && playwright test --grep @smoke",
+    "test:debug": "bddgen && playwright test --debug",
+    "report": "playwright show-report",
+    "trace": "playwright show-trace",
+    "codegen": "playwright codegen https://opensource-demo.orangehrmlive.com"
+  },
+  "keywords": [
+    "playwright",
+    "bdd",
+    "gherkin",
+    "page-object-model",
+    "orangehrm",
+    "qa-automation"
+  ],
+  "author": "aloc999",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0",
+    "dotenv": "^17.4.2",
+    "playwright-bdd": "^9.2.0",
+    "typescript": "^7.0.2"
+  }
+}
