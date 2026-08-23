@@ -22,7 +22,7 @@ playwright.config.ts       ← parallel runner, traces, HTML report
 - **Declarative BDD.** Feature files describe outcomes (`the workforce dashboard is displayed`), not UI mechanics (`click the green button`).
 - **Page Object Model.** Selectors and waits live in `src/pages`. Step files only orchestrate page objects.
 - **No hard-coded sleeps.** Readiness is asserted against loaders, URLs, and roles.
-- **Parallel by default.** `fullyParallel: true` with 2 workers. Guest features (`@guest`) run on a clean session; everything else reuses one administrator `storageState` so the pack does not log in 15 times.
+- **Parallel by default.** `fullyParallel: true` with 2 workers. Guest features (`@guest`) run on a clean session; everything else reuses one administrator `storageState` so the pack does not log in 14 times.
 - **Playwright Chromium.** `npx playwright install chromium` is enough — no system Chrome required.
 - **Secrets stay out of git.** Demo credentials are defaults, but `.env` is the supported override.
 
