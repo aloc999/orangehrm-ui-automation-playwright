@@ -89,9 +89,12 @@ npx playwright test --workers=1
 After a run:
 
 ```bash
-npm run report or npx playwright show-report
+npm run report
 ```
-
+or
+```bash
+npx playwright show-report
+```
 This opens the Playwright HTML report (`playwright-report/`) with pass/fail, screenshots, and videos for failed tests.
 
 ## Playwright traces
