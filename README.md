@@ -82,7 +82,7 @@ Worker count vs. shared demo stability: the suite runs 2 workers by default (`pl
 
 ```bash
 npx playwright test --workers=1
-
+```
 
 ## Reports
 
