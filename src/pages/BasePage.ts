@@ -15,7 +15,10 @@ export abstract class BasePage {
 
   async waitUntilReady(): Promise<void> {
     await this.page.waitForLoadState('domcontentloaded');
-    await expect(this.loaders.first()).toBeHidden({ timeout: 20_000 }).catch(() => undefined);
+    await this.loaders
+      .first()
+      .waitFor({ state: 'hidden', timeout: 20_000 })
+      .catch(() => undefined);
   }
 
   async openPath(path: string): Promise<void> {
@@ -49,7 +52,7 @@ export abstract class BasePage {
       hasText: new RegExp(`^${name}$`),
     });
     await expect(item).toBeVisible();
-    await item.click();
+    await item.click({ noWaitAfter: true });
     await this.waitUntilReady();
     await this.expectModule(new RegExp(`^${name}$`, 'i'));
   }

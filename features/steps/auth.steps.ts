@@ -4,9 +4,11 @@ Given('the OrangeHRM login page is displayed', async ({ loginPage }) => {
   await loginPage.open();
 });
 
-Given('an administrator is working in the application', async ({ loginPage, dashboardPage }) => {
-  await loginPage.open();
-  await loginPage.signInAsAdministrator();
+Given('an administrator is working in the application', async ({ dashboardPage, loginPage, page }) => {
+  await dashboardPage.openPath('/web/index.php/dashboard/index');
+  if (/auth\/login/.test(page.url())) {
+    await loginPage.signInAsAdministrator();
+  }
   await dashboardPage.expectLoaded();
 });
 

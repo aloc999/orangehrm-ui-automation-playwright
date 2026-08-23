@@ -2,10 +2,6 @@ import { expect, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class PimPage extends BasePage {
-  private get addButton(): Locator {
-    return this.page.getByRole('button', { name: 'Add' });
-  }
-
   private get saveButton(): Locator {
     return this.page.getByRole('button', { name: 'Save' });
   }
@@ -34,13 +30,9 @@ export class PimPage extends BasePage {
   }
 
   async expectEmployeeRecords(): Promise<void> {
-    await this.openEmployeeList();
     const rows = this.page.locator('.oxd-table-body .oxd-table-card, .oxd-table-body .oxd-table-row');
     const empty = this.page.getByText(/no records found/i);
     await expect(rows.first().or(empty)).toBeVisible();
-    if (await rows.count()) {
-      expect(await rows.count()).toBeGreaterThan(0);
-    }
   }
 
   private employeeIdInput(): Locator {

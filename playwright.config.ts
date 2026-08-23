@@ -1,22 +1,43 @@
+import { existsSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
-import { defineBddConfig } from 'playwright-bdd';
+import { defineBddProject } from 'playwright-bdd';
 import { appConfig } from './src/config/env';
 
+function browserChannel(): string | undefined {
+  if (process.env.PW_CHANNEL) return process.env.PW_CHANNEL;
+  if (process.env.CI) return undefined;
+  if (existsSync('/usr/bin/google-chrome') || existsSync('/usr/bin/google-chrome-stable')) {
+    return 'chrome';
+  }
+  return undefined;
+}
+
+const channel = browserChannel();
+const chrome = {
+  ...devices['Desktop Chrome'],
+  ...(channel ? { channel } : {}),
+};
+
 /**
- * Feature files in features/ are compiled by playwright-bdd and executed
- * by the Playwright runner (`npm test`). Parallelism, traces, and HTML
- * reporting stay native to Playwright.
+ * Two BDD projects so guest journeys start logged out, while the rest
+ * reuse one administrator session (storageState). `npm test` still
+ * compiles every file in features/ and runs them in parallel.
  */
-const testDir = defineBddConfig({
+const guest = defineBddProject({
+  name: 'guest',
   features: 'features/**/*.feature',
   steps: 'features/steps/**/*.ts',
-  outputDir: '.features-gen',
+  tags: '@guest',
 });
 
-const browserChannel = process.env.PW_CHANNEL ?? (process.env.CI ? undefined : 'chrome');
+const app = defineBddProject({
+  name: 'app',
+  features: 'features/**/*.feature',
+  steps: 'features/steps/**/*.ts',
+  tags: 'not @guest',
+});
 
 export default defineConfig({
-  testDir,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
@@ -42,10 +63,21 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'setup',
+      testDir: './src/setup',
+      testMatch: /.*\.setup\.ts/,
+      use: chrome,
+    },
+    {
+      ...guest,
+      use: chrome,
+    },
+    {
+      ...app,
+      dependencies: ['setup'],
       use: {
-        ...devices['Desktop Chrome'],
-        ...(browserChannel ? { channel: browserChannel } : {}),
+        ...chrome,
+        storageState: '.auth/admin.json',
       },
     },
   ],

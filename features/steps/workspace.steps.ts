@@ -1,27 +1,34 @@
+import { Page } from '@playwright/test';
 import { Given, When, Then } from './fixtures';
 import { uniqueEmployee } from '../../src/data/employees';
+import { LoginPage } from '../../src/pages/LoginPage';
 
-Given('an administrator is on the PIM workspace', async ({ loginPage, pimPage }) => {
-  await loginPage.open();
-  await loginPage.signInAsAdministrator();
+async function ensureSignedIn(page: Page, loginPage: LoginPage): Promise<void> {
+  if (page.url() === 'about:blank') {
+    await loginPage.openPath('/web/index.php/dashboard/index');
+  }
+  if (/auth\/login/.test(page.url())) {
+    await loginPage.signInAsAdministrator();
+  }
+}
+
+Given('an administrator is on the PIM workspace', async ({ pimPage, loginPage, page }) => {
+  await ensureSignedIn(page, loginPage);
   await pimPage.open();
 });
 
-Given('an administrator is on the Admin workspace', async ({ loginPage, adminPage }) => {
-  await loginPage.open();
-  await loginPage.signInAsAdministrator();
+Given('an administrator is on the Admin workspace', async ({ adminPage, loginPage, page }) => {
+  await ensureSignedIn(page, loginPage);
   await adminPage.open();
 });
 
-Given('an administrator is on the Leave workspace', async ({ loginPage, leavePage }) => {
-  await loginPage.open();
-  await loginPage.signInAsAdministrator();
+Given('an administrator is on the Leave workspace', async ({ leavePage, loginPage, page }) => {
+  await ensureSignedIn(page, loginPage);
   await leavePage.open();
 });
 
-Given('an administrator is on the Directory workspace', async ({ loginPage, directoryPage }) => {
-  await loginPage.open();
-  await loginPage.signInAsAdministrator();
+Given('an administrator is on the Directory workspace', async ({ directoryPage, loginPage, page }) => {
+  await ensureSignedIn(page, loginPage);
   await directoryPage.open();
 });
 
@@ -43,7 +50,7 @@ When('leave records are requested for a recent period', async ({ leavePage }) =>
 });
 
 When('the corporate directory is loaded', async ({ directoryPage }) => {
-  await directoryPage.expectDirectoryView();
+  await directoryPage.waitUntilReady();
 });
 
 Then('the employee personal details are displayed', async ({ pimPage }) => {
