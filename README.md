@@ -130,6 +130,16 @@ That is 9 core user flows (well above the required 7).
 - **Demo-site realism.** Employee names are timestamped. Leave/directory assertions accept either records or the official empty state — the public demo is shared and wiped often.
 - **Scale path.** Tags + Playwright workers + HTML/trace artifacts are the same levers you would use to grow this into a 500-scenario pack.
 
+## Troubleshooting
+
+**Blank screenshots/videos on Linux:** if every failure screenshot/video comes back blank white, Chromium is missing system rendering libraries. Fix:
+\`\`\`bash
+sudo npx playwright install-deps chromium
+\`\`\`
+Run this from inside the project folder so it resolves the local Playwright install, not a global one.
+
+**Occasional retried tests:** this suite runs against OrangeHRM's public shared demo instance, not a private environment. Because other people use the same instance concurrently, a step can occasionally take longer than expected on the first attempt. The config's `retries: 1` (local) / `retries: 2` (CI) exists specifically to absorb this — a test marked "flaky" in the report that passes on retry is expected behavior against a shared demo site, not a framework bug.
+
 ## License
 
 MIT
