@@ -9,6 +9,7 @@
     "test:ui": "bddgen && playwright test --ui",
     "test:smoke": "bddgen && playwright test --grep @smoke",
     "test:debug": "bddgen && playwright test --debug",
+    "typecheck": "tsc --noEmit",
     "report": "playwright show-report",
     "trace": "playwright show-trace",
     "codegen": "playwright codegen https://opensource-demo.orangehrmlive.com"
