@@ -78,6 +78,12 @@ Smoke subset:
 ```bash
 npm run test:smoke
 ```
+
+Typecheck (also enforced in CI):
+
+```bash
+npm run typecheck
+```
 Worker count vs. shared demo stability: the suite runs 2 workers by default (`playwright.config.ts`). Because OrangeHRM's demo instance is public and shared with other users worldwide, running more concurrent workers occasionally slows a page down enough to trip the built-in `retries: 1`. For a slower but more consistently single-attempt-pass run:
 
 ```bash
@@ -100,6 +106,7 @@ This opens the Playwright HTML report (`playwright-report/`) with pass/fail, scr
 ## Playwright traces
 
 Traces are captured automatically on the first retry (`trace: 'on-first-retry'`).
+CI uploads both `playwright-report/` and `test-results/` as artifacts, so traces from CI failures can be downloaded from the Actions run.
 
 1. Re-run a failing spec, or keep the `test-results/` folder from CI.
 2. Open a trace zip:
