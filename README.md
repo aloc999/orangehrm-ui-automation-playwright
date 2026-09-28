@@ -44,6 +44,12 @@ npx playwright install chromium
 cp .env.example .env   # optional — defaults already match the public demo
 ```
 
+### Windows / macOS notes
+
+- macOS / Windows: same `npm install` and `npx playwright install chromium` steps; no extra system libraries needed.
+- Windows (PowerShell/CMD): use `copy .env.example .env` instead of `cp`.
+- The `sudo npx playwright install-deps chromium` step in Troubleshooting is Linux-only — skip it on macOS/Windows.
+
 Required packages (installed by `npm install`):
 
 | Package | Role |
