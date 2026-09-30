@@ -6,6 +6,7 @@ import { AdminPage } from '../../src/pages/AdminPage';
 import { LeavePage } from '../../src/pages/LeavePage';
 import { DirectoryPage } from '../../src/pages/DirectoryPage';
 import { ForgotPasswordPage } from '../../src/pages/ForgotPasswordPage';
+import { MyInfoPage } from '../../src/pages/MyInfoPage';
 
 export type Pages = {
   loginPage: LoginPage;
@@ -15,6 +16,7 @@ export type Pages = {
   leavePage: LeavePage;
   directoryPage: DirectoryPage;
   forgotPasswordPage: ForgotPasswordPage;
+  myInfoPage: MyInfoPage;
 };
 
 export const test = base.extend<Pages>({
@@ -38,6 +40,9 @@ export const test = base.extend<Pages>({
   },
   forgotPasswordPage: async ({ page }, use) => {
     await use(new ForgotPasswordPage(page));
+  },
+  myInfoPage: async ({ page }, use) => {
+    await use(new MyInfoPage(page));
   },
 });
 

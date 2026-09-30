@@ -142,8 +142,9 @@ The viewer shows DOM snapshots, network, console, and the action timeline — us
 | Leave list | `features/leave.feature` |
 | Corporate directory | `features/directory.feature` |
 | Forgot-password journey | `features/password-recovery.feature` |
+| My Info profile picture (TC001) | `features/my-info.feature` |
 
-That is 9 core user flows (well above the required 7).
+That is 10 core user flows (well above the required 7).
 
 ## Design notes for reviewers
 

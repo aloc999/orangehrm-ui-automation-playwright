@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { resolve } from 'node:path';
 import { Given, When, Then } from './fixtures';
 import { uniqueEmployee } from '../../src/data/employees';
 import { LoginPage } from '../../src/pages/LoginPage';
@@ -32,6 +33,11 @@ Given('an administrator is on the Directory workspace', async ({ directoryPage, 
   await directoryPage.open();
 });
 
+Given('an administrator is on the My Info workspace', async ({ myInfoPage, loginPage, page }) => {
+  await ensureSignedIn(page, loginPage);
+  await myInfoPage.open();
+});
+
 When('a new employee is registered', async ({ pimPage }) => {
   const employee = uniqueEmployee();
   await pimPage.registerEmployee(employee.firstName, employee.lastName);
@@ -57,6 +63,12 @@ When('the corporate directory is loaded', async ({ directoryPage }) => {
   await directoryPage.waitUntilReady();
 });
 
+When('the profile picture is updated with a valid image', async ({ myInfoPage }) => {
+  await myInfoPage.openProfilePictureDialog();
+  await myInfoPage.uploadProfilePicture(resolve('test-assets/profile.png'));
+  await myInfoPage.saveProfilePicture();
+});
+
 Then('the employee personal details are displayed', async ({ pimPage }) => {
   await pimPage.expectHeading(/personal details/i);
 });
@@ -79,4 +91,8 @@ Then('the leave results view is displayed', async ({ leavePage }) => {
 
 Then('directory records or an empty-state message is shown', async ({ directoryPage }) => {
   await directoryPage.expectDirectoryView();
+});
+
+Then('a success message {string} is displayed', async ({ myInfoPage }, expected: string) => {
+  await myInfoPage.expectSuccessToast(new RegExp(expected, 'i'));
 });
