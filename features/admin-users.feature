@@ -8,3 +8,8 @@ Feature: System user administration
     Given an administrator is on the Admin workspace
     When system users are filtered by the built-in administrator username
     Then the administrator account is listed
+
+  Scenario: Search for an unregistered username shows the empty state
+    Given an administrator is on the Admin workspace
+    When system users are filtered by an unregistered username
+    Then no matching user records are displayed

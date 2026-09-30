@@ -45,6 +45,10 @@ When('system users are filtered by the built-in administrator username', async (
   await adminPage.filterUsersByUsername('Admin');
 });
 
+When('system users are filtered by an unregistered username', async ({ adminPage }) => {
+  await adminPage.filterUsersByUsername('NonExistentUserXYZ999');
+});
+
 When('leave records are requested for a recent period', async ({ leavePage }) => {
   await leavePage.reviewLeaveRecords();
 });
@@ -63,6 +67,10 @@ Then('employee records are displayed', async ({ pimPage }) => {
 
 Then('the administrator account is listed', async ({ adminPage }) => {
   await adminPage.expectUserListed('Admin');
+});
+
+Then('no matching user records are displayed', async ({ adminPage }) => {
+  await adminPage.expectNoUsersListed();
 });
 
 Then('the leave results view is displayed', async ({ leavePage }) => {

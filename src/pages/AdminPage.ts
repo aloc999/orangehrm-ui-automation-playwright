@@ -19,4 +19,11 @@ export class AdminPage extends BasePage {
     const cell = this.page.locator('.oxd-table-card, .oxd-table-row').filter({ hasText: username });
     await expect(cell.first()).toBeVisible();
   }
+
+  async expectNoUsersListed(): Promise<void> {
+    // The table empty-state is a span; the toast uses a <p> — scope to the span.
+    await expect(
+      this.page.locator('span.oxd-text--span').filter({ hasText: 'No Records Found' }).first(),
+    ).toBeVisible();
+  }
 }
